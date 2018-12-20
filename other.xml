@@ -1,0 +1,9 @@
+<application>
+  <component name="PyTestFrameworkService">
+    <option name="SDK_TO_PYTEST">
+      <map>
+        <entry key="F:\temp\python_3_7_1\python.exe" value="false" />
+      </map>
+    </option>
+  </component>
+</application>
