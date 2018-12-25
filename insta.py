@@ -1,160 +1,286 @@
-import instaloader
+import sys
+import argparse
 import time
 import random
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-
-class InstagramBot():
-    def __init__(self, email, password):
-        self.browserProfile = webdriver.ChromeOptions()
-        self.browserProfile.add_experimental_option('prefs', {'intl.accept_languages': 'ru,ru_RU'})
-        self.browser = webdriver.Chrome('chromedriver.exe', chrome_options=self.browserProfile)
-        self.email = email
-        self.password = password
-
-    def signIn(self):
-        self.browser.get('https://www.instagram.com/accounts/login/')
-
-        emailInput = self.browser.find_elements_by_css_selector('form input')[0]
-        passwordInput = self.browser.find_elements_by_css_selector('form input')[1]
-
-        emailInput.send_keys(self.email)
-        passwordInput.send_keys(self.password)
-        passwordInput.send_keys(Keys.ENTER)
-        time.sleep(2)
-        test=self.browser.find_elements_by_css_selector('.HoLwm')[0]
-        test.send_keys(Keys.ENTER)
-
-    def followWithUsername(self, username, count):
-        self.browser.get('https://www.instagram.com/' + username + '/')
-        time.sleep(2)
-        followButton = self.browser.find_element_by_css_selector('button')
-        if (followButton.text != 'Following'):
-            followButton.click()
-            a = random.randrange(20, 45, 1)
-            time.sleep(a)
-            count = count + 1
-        else:
-            print("You are already following this user " + username)
-        return count
-
-    def unfollowWithUsername(self, username):
-        self.browser.get('https://www.instagram.com/' + username + '/')
-        time.sleep(2)
-        followButton = self.browser.find_element_by_css_selector('button')
-        if (followButton.text == 'Following'):
-            followButton.click()
-            time.sleep(2)
-            confirmButton = self.browser.find_element_by_xpath('//button[text() = "Unfollow"]')
-            confirmButton.click()
-        else:
-            print("You are not following this user")
-
-    def getUserFollowers(self, username, max):
-        self.browser.get('https://www.instagram.com/' + username)
-        followersLink = self.browser.find_element_by_css_selector('ul li a')
-        followersLink.click()
-        time.sleep(2)
-        followersList = self.browser.find_element_by_css_selector('div[role=\'dialog\'] ul')
-        numberOfFollowersInList = len(followersList.find_elements_by_css_selector('li'))
-        actionChain = webdriver.ActionChains(self.browser)
-        followersList.click()
-
-        followers = []
-        while (numberOfFollowersInList < max):
-            time.sleep(1)
-            #followersList.click()
-
-            actionChain.key_down(Keys.SPACE).key_up(Keys.SPACE).perform()
-            followersList = self.browser.find_element_by_css_selector('div[role=\'dialog\'] ul')
-            actionChain = webdriver.ActionChains(self.browser)
-            numberOfFollowersInList = numberOfFollowersInList+len(followersList.find_elements_by_css_selector('li'))
-            #print(numberOfFollowersInList)
-            for user in followersList.find_elements_by_css_selector('li'):
-                userLink = user.find_element_by_css_selector('a').get_attribute('href')
-                print(userLink)
-                followers.append(userLink)
-                if (len(followers) == max):
-                    break
-        return followers
-
-    def closeBrowser(self):
-        self.browser.close()
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        self.closeBrowser()
+import re
+import datetime
+from InstagramAPI import InstagramAPI
+from rrr import FileOperations
 
 
 
+def createParser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-n', '--name', type=str)
+    parser.add_argument('-p', '--passw', type=str)
+    parser.add_argument('-t', '--task', default='run')
+    return parser
 
 
-
-
-text_file=[]
-
-def write_to_file(text, file_name):
-    f = open(file_name, 'a+')
-    f.write(str(text) + '\n')
-    f.close()
-
-
-def read_from_file(file_name, count_max):
-    del text_file[:]
-    f = open(file_name)
+if __name__ == '__main__':
+    parser = createParser()
+    namespace = parser.parse_args(sys.argv[1:])
+    USER=namespace.name
+    PASSWORD=namespace.passw
+    TASK=namespace.task
+    file_op=FileOperations()
     count=0
-    for line in f:
-        count=count+1
-        text_file.append(line)
-        if count>=count_max and count_max!=0:
-            return
+    old_count=-1
+    count_total=1
+    count_pause=50
+    pause_min=30
+    pause_max=50
+    time_to_sleep=30
+    time_to_sleep=60*time_to_sleep
+
+    print(USER)
+    print(PASSWORD)
+    print(TASK)
 
 
-read_from_file('folowing_psycho_growth.txt', 0)
-bot = InstagramBot('agniya.barto@rambler.ru', 'bibika10')
-bot.signIn()
-count=0
-count_max=50
-time_to_sleep=10
-time_to_sleep=60*time_to_sleep
-
-for list in text_file:
-    count=bot.followWithUsername(list,count)
-    if count>=count_max:
-        time.sleep(time_to_sleep)
-
-bot.closeBrowser()
+def not_arabian(data_from_insta):
+    strings_list = [r'[\u0600-\u06ff]', 'shop', 'магазин','продвижен','реклам', 'для','заказ', 'сайт']
+    for strings in strings_list:
+        token=data_from_insta.split(';')
+        not_arab=True
+        for w in token:
+            status=re.search(strings,w.lower())
+            if status:
+                not_arab=False
+                return not_arab
+                break
+    return not_arab
 
 
-def olol():
-    # Get instance
-    L = instaloader.Instaloader()
+def getfollowers():
+    api = InstagramAPI(USER, PASSWORD)
+    api.login()
+    user_id_dict=api.testplease(USER)
+    user_id_dict=user_id_dict['users']
+    user_id=user_id_dict[0]['pk']
+    for item in user_id_dict:
+        item_username=item['username']
+        if item_username==str(USER).lower():
+            user_id=item['pk']
+            break
 
-    USER='Alkash_irk'
-    PASSWORD='q1w2e3R$T%Y^'
+    followers = api.getTotalFollowers(user_id)
+    followers_file_path='\\lists\\followers_' + USER
+    followings = api.getTotalFollowings(user_id)
+    followings_file_path='\\lists\\followings_' + USER
 
-    #PROFILE='irene_4umakova'
+    file_op.remove_file(followers_file_path + '.txt')
+    file_op.remove_file(followers_file_path + '_full.txt')
+    file_op.remove_file(followings_file_path + '.txt')
+    file_op.remove_file(followings_file_path + '_full.txt')
 
-    PROFILE='psycho_growth'
+    element=[]
+    full_data=[]
+    for item in followers:
+        element.append(item['username'])
+        full_data.append(str(item['pk']) + ";" + str(item['username']) + ";" + str(item['full_name']))
+    file_op.write_to_file(element, followers_file_path + '.txt')
+    file_op.write_to_file(full_data, followers_file_path + '_full.txt', 1)
 
-    # Login or load session
-    L.login(USER, PASSWORD)        # (login)
-    # L.interactive_login(USER)      # (ask password on terminal)
-    # L.load_session_from_file(USER) # (load session created w/
-    #                                #  `instaloader -l USERNAME`)
+    element=[]
+    full_data=[]
+    for item in followings:
+        element.append(item['username'])
+        full_data.append(str(item['pk']) + ";" + str(item['username']) + ";" + str(item['full_name']))
+    file_op.write_to_file(element, followings_file_path + '.txt')
+    file_op.write_to_file(full_data, followings_file_path + '_full.txt' ,1)
 
-    # Obtain profile metadata
-    profile = instaloader.Profile.from_username(L.context, PROFILE)
+    unfollowlist()
+    return
 
-    # Print list of followees
-    for followee in profile.get_followees():
-        print(followee.username)
-        write_to_file(followee.username,'folowing_'+ PROFILE + '.txt')
+def unfollowlist():
+    followings=file_op.read_from_file('\\lists\\followings_' + USER + '.txt')
+    followers=file_op.read_from_file('\\lists\\followers_' + USER + '.txt')
+    unfollow_list=list(set(followings)-set(followers))
 
-
-    for followers in profile.get_followers():
-        print(followers.username)
-        write_to_file(followers.username, 'folowers_' + PROFILE + '.txt')
+    file_op.remove_file('\\lists\\unfollow_list_' + USER + '.txt')
+    file_op.write_to_file(unfollow_list, '\\lists\\unfollow_list_' + USER + '.txt')
 
 
+if TASK=='run':
+    if file_op.file_exist('\\lists\\followers_' + USER +'.txt')==False:
+        getfollowers()
 
-    # (likewise with profile.get_followers())
+    completed=file_op.read_from_file('\\lists\\black_list.txt')      #
+    followers=file_op.read_from_file('\\lists\\followers_' + USER +'.txt')       #
+    follow=file_op.read_from_file('\\lists\\tag.txt')                #
+    follow_list=list(set(follow)-set(completed)-set(followers))
+
+    completed.clear()
+    followers.clear()
+    follow.clear()
+
+    if len(follow_list)>=1:
+        file_op.write_to_file(' ', '\\log.log')
+        file_op.write_to_file(' ', '\\log.log')
+        file_op.write_to_file('------------------------------', '\\log.log')
+        file_op.write_to_file('------------------------------', '\\log.log')
+        file_op.write_to_file(' ', '\\log.log')
+        file_op.write_to_file(' ', '\\log.log')
+
+        print(str(len(follow_list)) + ' positions in follow list')
+        file_op.write_to_file(str(len(follow_list))  + ' positions in follow list','\\log.log')
+
+        api = InstagramAPI(USER, PASSWORD)
+        api.login()
+
+        user_id_dict=api.testplease(USER)
+        if user_id_dict['num_results']>=1:
+            user_id_dict=user_id_dict['users']
+            user_id=user_id_dict[0]['pk']
+            for item in user_id_dict:
+                item_username=item['username']
+                if item_username==USER.lower():
+                    user_id=str(item['pk'])
+                    user_data_dict=api.info_user(user_id)
+                    data_str=str(str(user_data_dict['user']['follower_count']) + ' followers' + '  ' + str(user_data_dict['user']['following_count'])+ ' following')
+                    print(data_str)
+                    file_op.write_to_file(data_str,'\\log.log')
+
+
+        for list in follow_list:
+            list=str(list).rstrip()
+            if count_total>=500:
+                print('Complete!!!')
+                file_op.write_to_file("Complete!!!", '\\log.log')
+                # file_op.remove_file(unfollow_list_path)
+                api.logout()
+                break
+            user_id_dict=api.testplease(list)
+
+            ts = time.time()
+            st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+
+            if user_id_dict['num_results']>=1:
+                user_id_dict=user_id_dict['users']
+                user_id=user_id_dict[0]['pk']
+                for item in user_id_dict:
+                    item_username=item['username']
+                    if item_username==list.lower():
+                        user_id=item['pk']
+                        following_status=item['friendship_status']['following']
+                        test=str(item['username']) +';' + str(item['full_name'])
+
+                        not_arab=not_arabian(test)
+                        if not_arab==False:
+                            print('Arab_detected!!! ' + test)
+                        break
+                if following_status==False and not_arab==True:
+                    api.follow(user_id)
+                    print(st + " " + str(count_total) + ". Following user " + list.rstrip())
+                    file_op.write_to_file(st + " " + str(count_total) + ". Following user " + list.rstrip(), '\\log.log')
+                    file_op.write_to_file(list.rstrip(),'\\lists\\black_list.txt')
+                    old_count=count
+                    count=count_total//count_pause
+                    count_total=count_total+1
+                    if count!=old_count:
+                        file_op.write_to_file("Pause " + str(time_to_sleep) + " sec", '\\log.log')
+                        print("Pause " + str(time_to_sleep) + " sec")
+                        time.sleep(time_to_sleep)
+                    else:
+                        random_pause = random.randrange(pause_min, pause_max, 1)
+                        file_op.write_to_file(st + " Pause " + str(random_pause) + " sec", '\\log.log')
+                        print(st + " " + "Pause " + str(random_pause) + " sec")
+                        time.sleep(random_pause)
+                else:
+                    if not_arab==False:
+                        file_op.write_to_file('                    Arab_detected!!! ' + test , '\\log.log',1)
+                        time.sleep(2)
+                    else:
+                        print(st + " " + "Error: Allready followed user " + list.rstrip())
+                        file_op.write_to_file(st + " " + "Error: Allready followed user " + list.rstrip(), '\\log.log')
+                        time.sleep(2)
+            else:
+                print(st + " " + "Error: Not found user " + list.rstrip())
+                file_op.write_to_file(st + " " + "Error: Not found user " + list.rstrip(), '\\log.log')
+                time.sleep(5)
+    else:
+        print('The list is empty')
+        file_op.write_to_file("The list is empty", '\\log.log')
+
+
+
+elif TASK=='unfollow':
+    unfollow_list_path='\\lists\\unfollow_list_' + USER + '.txt'
+    if file_op.file_exist(unfollow_list_path)==False:
+        getfollowers()
+    unfollow_list=file_op.read_from_file(unfollow_list_path)
+    unfollow_list=list(set(unfollow_list))
+
+    if len(unfollow_list)>=1:
+        file_op.write_to_file(' ', '\\log.log')
+        file_op.write_to_file(' ', '\\log.log')
+        file_op.write_to_file('------------------------------', '\\log.log')
+        file_op.write_to_file('------------------------------', '\\log.log')
+        file_op.write_to_file(' ', '\\log.log')
+        file_op.write_to_file(' ', '\\log.log')
+
+        print(str(len(unfollow_list)) + ' positions in unfollow list')
+        file_op.write_to_file(str(len(unfollow_list))  + ' positions in unfollow list','\\log.log')
+
+        api = InstagramAPI(USER, PASSWORD)
+        api.login()
+
+        for list in unfollow_list:
+            list=str(list).rstrip()
+            if count_total>=500:
+                print('Complete!!!')
+                file_op.write_to_file("Complete!!!", '\\log.log')
+                file_op.remove_file(unfollow_list_path)
+                api.logout()
+                break
+            user_id_dict=api.testplease(list)
+
+            ts = time.time()
+            st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+
+            if user_id_dict['num_results']>=1:
+                user_id_dict=user_id_dict['users']
+                user_id=user_id_dict[0]['pk']
+                for item in user_id_dict:
+                    item_username=item['username']
+                    if item_username==list.lower():
+                        user_id=item['pk']
+                        following_status=item['friendship_status']['following']
+                        # not_arab=not_arabian()
+                        break
+                if following_status:
+                    api.unfollow(user_id)
+                    print(st + " " + str(count_total) + ". Unfollowing user " + list.rstrip())
+                    file_op.write_to_file(st + " " + str(count_total) + ". Unfollowing user " + list.rstrip(), '\\log.log')
+                    old_count=count
+                    count=count_total//count_pause
+                    count_total=count_total+1
+                    if count!=old_count:
+                        file_op.write_to_file("Pause " + str(time_to_sleep) + " sec", '\\log.log')
+                        print("Pause " + str(time_to_sleep) + " sec")
+                        time.sleep(time_to_sleep)
+                    else:
+                        random_pause = random.randrange(pause_min, pause_max, 1)
+                        file_op.write_to_file(st + " Pause " + str(random_pause) + " sec", '\\log.log')
+                        print(st + " " + "Pause " + str(random_pause) + " sec")
+                        time.sleep(random_pause)
+                else:
+                    print(st + " " + "Error: Allready unfollowed from user " + list.rstrip())
+                    file_op.write_to_file(st + " " + "Error: Allready unfollowed from user " + list.rstrip(), '\\log.log')
+                    time.sleep(2)
+            else:
+                print("Error: Not found user " + list.rstrip())
+                file_op.write_to_file(st + " " + "Error: Not found user " + list.rstrip(), '\\log.log')
+                time.sleep(5)
+    else:
+        print('The list is empty')
+        file_op.write_to_file("The list is empty", '\\log.log')
+else:
+    getfollowers()
+
+
+
+
+
+
