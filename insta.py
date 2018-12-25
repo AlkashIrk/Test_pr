@@ -52,45 +52,60 @@ def not_arabian(data_from_insta):
     return not_arab
 
 
-def getfollowers():
+def getfollowers(user_name):
+
+    user_name=str(user_name).lower().rstrip()
     api = InstagramAPI(USER, PASSWORD)
     api.login()
-    user_id_dict=api.testplease(USER)
+    user_id_dict=api.testplease(user_name)
     user_id_dict=user_id_dict['users']
     user_id=user_id_dict[0]['pk']
     for item in user_id_dict:
         item_username=item['username']
-        if item_username==str(USER).lower():
+        item_username=str(item_username).lower().rstrip()
+        if item_username==user_name:
             user_id=item['pk']
             break
 
-    followers = api.getTotalFollowers(user_id)
-    followers_file_path='\\lists\\followers_' + USER
-    followings = api.getTotalFollowings(user_id)
-    followings_file_path='\\lists\\followings_' + USER
+    if user_name==str(USER).lower().rstrip():
+        followers = api.getTotalFollowers(user_id)
+        followers_file_path='\\lists\\followers_' + user_name
+        followings = api.getTotalFollowings(user_id)
+        followings_file_path='\\lists\\followings_' + user_name
 
-    file_op.remove_file(followers_file_path + '.txt')
-    file_op.remove_file(followers_file_path + '_full.txt')
-    file_op.remove_file(followings_file_path + '.txt')
-    file_op.remove_file(followings_file_path + '_full.txt')
+        file_op.remove_file(followers_file_path + '.txt')
+        file_op.remove_file(followers_file_path + '_full.txt')
+        file_op.remove_file(followings_file_path + '.txt')
+        file_op.remove_file(followings_file_path + '_full.txt')
 
-    element=[]
-    full_data=[]
-    for item in followers:
-        element.append(item['username'])
-        full_data.append(str(item['pk']) + ";" + str(item['username']) + ";" + str(item['full_name']))
-    file_op.write_to_file(element, followers_file_path + '.txt')
-    file_op.write_to_file(full_data, followers_file_path + '_full.txt', 1)
+        element=[]
+        full_data=[]
+        for item in followers:
+            element.append(item['username'])
+            full_data.append(str(item['pk']) + ";" + str(item['username']) + ";" + str(item['full_name']))
+        file_op.write_to_file(element, followers_file_path + '.txt')
+        file_op.write_to_file(full_data, followers_file_path + '_full.txt', 1)
 
-    element=[]
-    full_data=[]
-    for item in followings:
-        element.append(item['username'])
-        full_data.append(str(item['pk']) + ";" + str(item['username']) + ";" + str(item['full_name']))
-    file_op.write_to_file(element, followings_file_path + '.txt')
-    file_op.write_to_file(full_data, followings_file_path + '_full.txt' ,1)
+        element=[]
+        full_data=[]
+        for item in followings:
+            element.append(item['username'])
+            full_data.append(str(item['pk']) + ";" + str(item['username']) + ";" + str(item['full_name']))
+        file_op.write_to_file(element, followings_file_path + '.txt')
+        file_op.write_to_file(full_data, followings_file_path + '_full.txt' ,1)
 
-    unfollowlist()
+        unfollowlist()
+    else:
+        element=[]
+        followers = api.getTotalFollowers(user_id)
+        followers_file_path='\\lists\\tag.txt'
+        file_op.remove_file(followers_file_path)
+        for item in followers:
+            element.append(item['username'])
+            # full_data.append(str(item['pk']) + ";" + str(item['username']) + ";" + str(item['full_name']))
+        file_op.write_to_file(element, followers_file_path)
+        # file_op.write_to_file(full_data, followers_file_path + '_full.txt', 1)
+
     return
 
 def unfollowlist():
@@ -104,7 +119,7 @@ def unfollowlist():
 
 if TASK=='run':
     if file_op.file_exist('\\lists\\followers_' + USER +'.txt')==False:
-        getfollowers()
+        getfollowers(USER)
 
     completed=file_op.read_from_file('\\lists\\black_list.txt')      #
     followers=file_op.read_from_file('\\lists\\followers_' + USER +'.txt')       #
@@ -190,10 +205,12 @@ if TASK=='run':
                 else:
                     if not_arab==False:
                         file_op.write_to_file('                    Arab_detected!!! ' + test , '\\log.log',1)
+                        file_op.write_to_file(list.rstrip(),'\\lists\\black_list.txt')
                         time.sleep(2)
                     else:
                         print(st + " " + "Error: Allready followed user " + list.rstrip())
                         file_op.write_to_file(st + " " + "Error: Allready followed user " + list.rstrip(), '\\log.log')
+                        file_op.write_to_file(list.rstrip(),'\\lists\\black_list.txt')
                         time.sleep(2)
             else:
                 print(st + " " + "Error: Not found user " + list.rstrip())
@@ -208,7 +225,7 @@ if TASK=='run':
 elif TASK=='unfollow':
     unfollow_list_path='\\lists\\unfollow_list_' + USER + '.txt'
     if file_op.file_exist(unfollow_list_path)==False:
-        getfollowers()
+        getfollowers(USER)
     unfollow_list=file_op.read_from_file(unfollow_list_path)
     unfollow_list=list(set(unfollow_list))
 
@@ -277,7 +294,8 @@ elif TASK=='unfollow':
         print('The list is empty')
         file_op.write_to_file("The list is empty", '\\log.log')
 else:
-    getfollowers()
+    getfollowers(TASK)
+    # butenko_psy
 
 
 
