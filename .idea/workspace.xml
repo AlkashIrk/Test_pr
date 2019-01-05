@@ -7,7 +7,17 @@
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_windows/git.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/find.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/insta.py" beforeDir="false" afterPath="$PROJECT_DIR$/insta.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lists/black_list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lists/black_list.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lists/followers_psycho_growth.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lists/followers_psycho_growth.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lists/followers_psycho_growth_full.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lists/followers_psycho_growth_full.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lists/followings_psycho_growth.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lists/followings_psycho_growth.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lists/followings_psycho_growth_full.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lists/followings_psycho_growth_full.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lists/unfollow_list_psycho_growth.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/log.log" beforeDir="false" afterPath="$PROJECT_DIR$/log.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui.lnf.xml" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,25 +29,25 @@
     <session id="199129586">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="7" />
+          <entry key="project.closed" value="8" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.3" value="2" />
-          <entry key="project.open.time.4" value="5" />
-          <entry key="project.opened" value="9" />
+          <entry key="project.open.time.4" value="7" />
+          <entry key="project.opened" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="23" />
-          <entry key="py" value="6475" />
+          <entry key="py" value="6482" />
           <entry key="txt" value="86" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="109" />
-          <entry key="Python" value="6475" />
+          <entry key="Python" value="6482" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -57,8 +67,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test_me.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+            <state relative-caret-position="17">
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -69,11 +79,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/insta.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="285" column="93" lean-forward="true" selection-start-line="285" selection-start-column="93" selection-end-line="285" selection-end-column="93" />
+            <state relative-caret-position="173">
+              <caret line="264" column="36" lean-forward="true" selection-start-line="264" selection-start-column="36" selection-end-line="264" selection-end-column="36" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
-                <marker date="1545766335774" expanded="true" signature="839:1241" ph="..." />
               </folding>
             </state>
           </provider>
@@ -82,8 +91,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/InstagramAPI/InstagramAPI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1013" column="41" lean-forward="true" selection-start-line="1013" selection-start-column="41" selection-end-line="1013" selection-end-column="41" />
+            <state relative-caret-position="16915">
+              <caret line="1013" column="41" selection-start-line="1013" selection-start-column="41" selection-end-line="1013" selection-end-column="41" />
               <folding>
                 <element signature="n#!!doc" />
                 <marker date="1545718831131" expanded="true" signature="15348:15355" ph="..." />
@@ -119,6 +128,7 @@
       <find>the_number_of_following</find>
       <find>Pause</find>
       <find>getfollowers</find>
+      <find>following_status</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -152,9 +162,9 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="117" />
-    <option name="y" value="22" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="148" />
+    <option name="y" value="17" />
     <option name="width" value="1452" />
     <option name="height" value="709" />
   </component>
@@ -191,7 +201,7 @@
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -219,7 +229,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/insta.py" />
-      <option name="PARAMETERS" value="-n psycho_growth -p newoldage281 -t kisulman" />
+      <option name="PARAMETERS" value="-n psycho_growth -p newoldage281" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -344,7 +354,14 @@
       <option name="project" value="LOCAL" />
       <updated>1545766623498</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="сбор подписчиков">
+      <created>1545766667033</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1545766667033</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView">
@@ -357,24 +374,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="834" extended-state="6" />
-    <editor active="true" />
+    <frame x="148" y="17" width="1452" height="709" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21546261" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24045262" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Inspection Results" weight="0.32952926" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.69961977" weight="0.43509272" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.72179973" visible="true" weight="0.39942938" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.698727" visible="true" weight="0.5295139" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.72179973" weight="0.39942938" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32952926" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49873257" weight="0.35235378" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32952926" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.27820024" side_tool="true" visible="true" weight="0.39942938" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49683145" weight="0.35235378" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49936628" weight="0.32952926" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.301273" side_tool="true" visible="true" weight="0.5295139" />
       <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.32952926" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -408,7 +424,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/insta.py</url>
-          <line>265</line>
+          <line>266</line>
           <option name="timeStamp" value="108" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -555,15 +571,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/insta_.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2091">
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/insta_.py" />
     <entry file="file://F:/temp/python_3_7_1/Lib/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
@@ -575,20 +583,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="541">
           <caret line="44" column="26" lean-forward="true" selection-start-line="44" selection-start-column="26" selection-end-line="44" selection-end-column="26" />
-          <folding>
-            <marker date="1545706526365" expanded="true" signature="513:522" ph="..." />
-            <marker date="1545706526365" expanded="true" signature="1613:1622" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_me.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -609,10 +603,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/InstagramAPI/InstagramAPI.py">
+    <entry file="file://$PROJECT_DIR$/test_me.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
-          <caret line="1013" column="41" lean-forward="true" selection-start-line="1013" selection-start-column="41" selection-end-line="1013" selection-end-column="41" />
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/InstagramAPI/InstagramAPI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16915">
+          <caret line="1013" column="41" selection-start-line="1013" selection-start-column="41" selection-end-line="1013" selection-end-column="41" />
           <folding>
             <element signature="n#!!doc" />
             <marker date="1545718831131" expanded="true" signature="15348:15355" ph="..." />
@@ -622,11 +626,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/insta.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="285" column="93" lean-forward="true" selection-start-line="285" selection-start-column="93" selection-end-line="285" selection-end-column="93" />
+        <state relative-caret-position="173">
+          <caret line="264" column="36" lean-forward="true" selection-start-line="264" selection-start-column="36" selection-end-line="264" selection-end-column="36" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <marker date="1545766335774" expanded="true" signature="839:1241" ph="..." />
           </folding>
         </state>
       </provider>

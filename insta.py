@@ -33,11 +33,6 @@ if __name__ == '__main__':
     time_to_sleep=30
     time_to_sleep=60*time_to_sleep
 
-    print(USER)
-    print(PASSWORD)
-    print(TASK)
-
-
 def not_arabian(data_from_insta):
     strings_list = [r'[\u0600-\u06ff]', 'shop', 'магазин','продвижен','реклам', 'для','заказ', 'сайт']
     for strings in strings_list:
@@ -261,6 +256,7 @@ elif TASK=='unfollow':
                 user_id=user_id_dict[0]['pk']
                 for item in user_id_dict:
                     item_username=item['username']
+                    following_status=False
                     if item_username==list.lower():
                         user_id=item['pk']
                         following_status=item['friendship_status']['following']
