@@ -291,10 +291,3 @@ elif TASK=='unfollow':
         file_op.write_to_file("The list is empty", '\\log.log')
 else:
     getfollowers(TASK)
-    # butenko_psy
-
-
-
-
-
-
